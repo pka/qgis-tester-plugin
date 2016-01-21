@@ -6,16 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>593</height>
+    <width>400</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Test results</string>
+   <string>Lesson selector</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTreeWidget" name="resultsTree">
+    <widget class="QTreeWidget" name="lessonsTree">
      <attribute name="headerVisible">
       <bool>false</bool>
      </attribute>
@@ -27,15 +27,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextBrowser" name="resultText"/>
-   </item>
-   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

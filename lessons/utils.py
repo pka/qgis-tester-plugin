@@ -41,12 +41,59 @@ def loadLayerNoCrsDialog(filename, name=None):
     Same as the loadLayer method, but it does not ask for CRS, regardless of current
     configuration in QGIS settings
     '''
-    settings = QSettings()
+    settings = QtCore.QSettings()
     prjSetting = settings.value('/Projections/defaultBehaviour')
     settings.setValue('/Projections/defaultBehaviour', '')
     layer = loadLayer(filename, name)
     settings.setValue('/Projections/defaultBehaviour', prjSetting)
     return layer
+
+def menuFromName(menuName):
+    def getMenuPath(menu):
+        path = []
+        while isinstance(menu, QtGui.QMenu):
+            path.append(menu.title().replace("&",""))
+            menu = menu.parent()
+        return "/".join(path[::-1])
+
+    def getActions(action, menu):
+        menuActions = []
+        submenu = action.menu()
+        if submenu is None:
+            menuActions.append((action, menu))
+            return menuActions
+        else:
+            actions = submenu.actions()
+            for subaction in actions:
+                if subaction.menu() is not None:
+                    menuActions.extend(getActions(subaction, subaction.menu()))
+                elif not subaction.isSeparator():
+                    menuActions.append((subaction, submenu))
+
+        return menuActions
+
+    menuActions = []
+    actions = iface.mainWindow().menuBar().actions()
+    for action in actions:
+        menuActions.extend(getActions(action, None))
+
+    for action, menu in menuActions:
+        name = getMenuPath(menu) + "/" + action.text().replace("&","")
+        if name == menuName:
+            return menu, action
+
+def unfoldMenu(menu, action):
+    menus = []
+    while isinstance(menu, QtGui.QMenu):
+        menus.append(menu)
+        menu = menu.parent()
+    for m in menus[::-1]:
+        m.setVisible(True)
+    m.setActiveAction(action)
+
+def openProject(projectFile):
+    if projectFile != QgsProject.instance().fileName():
+        iface.addProject(projectFile)
 
 _dialog = None
 
