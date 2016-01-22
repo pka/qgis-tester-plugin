@@ -6,5 +6,5 @@ qgisMinimumVersion=2.0
 author=Victor Olaya
 email=volaya@boundlessgeo.com
 website=www.boundlessgeo.com
-icon=plugin.png
+icon=lesson.gif
 class_name=LessonsPlugin

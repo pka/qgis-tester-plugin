@@ -4,6 +4,7 @@
 from PyQt4 import QtGui, QtCore
 from lessonwidget import LessonWidget
 from lessonselector import LessonSelector
+import os
 
 class LessonsPlugin:
 
@@ -19,7 +20,8 @@ class LessonsPlugin:
 			del self.toolbar
 
 	def initGui(self):
-		self.action = QtGui.QAction("Start lessons", self.iface.mainWindow())
+		lessonIcon = QtGui.QIcon(os.path.dirname(__file__) + '/lesson.gif')
+		self.action = QtGui.QAction(lessonIcon, "Start lessons", self.iface.mainWindow())
 		self.action.triggered.connect(self.start)
 		self.iface.addPluginToMenu(u"Lessons", self.action)
 		self.lessonwidget = None

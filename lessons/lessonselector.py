@@ -1,4 +1,4 @@
-from PyQt4 import QtGui, uic
+from PyQt4 import QtGui, uic, QtCore
 import os
 from lessons import lessons
 from collections import defaultdict
@@ -18,6 +18,7 @@ class LessonSelector(BASE, WIDGET):
         for lesson in lessons:
             allLessons[lesson.group].append(lesson)
 
+        lessonIcon = QtGui.QIcon(os.path.dirname(__file__) + '/lesson.gif')
         for group, groupLessons in allLessons.iteritems():
             groupItem = QtGui.QTreeWidgetItem()
             groupItem.setText(0, group)
@@ -25,6 +26,7 @@ class LessonSelector(BASE, WIDGET):
                 lessonItem = QtGui.QTreeWidgetItem()
                 lessonItem.lesson = lesson
                 lessonItem.setText(0, lesson.name)
+                lessonItem.setIcon(0, lessonIcon)
                 groupItem.addChild(lessonItem)
             self.lessonsTree.addTopLevelItem(groupItem)
 
@@ -46,7 +48,18 @@ class LessonSelector(BASE, WIDGET):
     def currentItemChanged(self):
         item = self.lessonsTree.currentItem()
         if item:
-            self.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(hasattr(item, "lesson"))
+            if hasattr(item, "lesson"):
+                self.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(True)
+                if os.path.exists(item.lesson.description):
+                    with open(item.lesson.description) as f:
+                        html = "".join(f.readlines())
+                    self.webView.setHtml(html, QtCore.QUrl.fromUserInput(item.lesson.description))
+                else:
+                    self.webView.setHtml("<p>%s</p>" % item.lesson.description)
+            else:
+                self.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(False)
+                self.webView.setHtml("")
+
 
     def cancelPressed(self):
         self.close()
