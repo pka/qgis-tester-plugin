@@ -5,12 +5,16 @@ from PyQt4 import QtGui, QtCore
 from lessonwidget import LessonWidget
 from lessonselector import LessonSelector
 import os
+import lessons
+from examplelessons import exporttogeojson
 
 class LessonsPlugin:
 
 	def __init__(self, iface):
 		self.iface = iface
 		self.lessonWidget = None
+
+		lessons.addLessonModule(exporttogeojson)
 
 	def unload(self):
 		self.iface.removePluginMenu(u"Lessons", self.action)
