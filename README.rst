@@ -1,8 +1,6 @@
-# QGIS Tester
+# QGIS Lessons
 
-A QGIS plugin to automate and simplify testing routines QGIS plugins
+A QGIS plugin to create step-by-step lessons and tutorials.
 
-Usage of the plugin is defined  `here <./doc/usage.rst>`_
-
-Instructions about how to write and add new tests can be found  `here <./doc/writing_tests.rst>`_
+Instructions about how to write lessons is found  `here <./doc/writing_lessons.rst>`_
 
