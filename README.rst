@@ -9,4 +9,4 @@ QGIS Tester
 
 A QGIS plugin to automate and simplify testing routines QGIS plugins
 
-Documentation can be found  `here <./doc/source/intro.rst>`_
+Documentation can be found  `here <./doc/source//writing_tests.rstt>`_
